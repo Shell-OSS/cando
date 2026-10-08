@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3 1.5 38.5 30" width="38.5" height="30" role="img" aria-label="CANDO logo">
+  <defs>
+    <mask id="cando-behind-grid">
+      <rect x="0" y="0" width="48" height="40" fill="#fff"/>
+      <g transform="rotate(-8 16 16)" fill="#000">
+        <rect x="6" y="6" width="9" height="9" rx="1.98"/>
+        <rect x="17" y="6" width="9" height="9" rx="1.98"/>
+        <rect x="6" y="17" width="9" height="9" rx="1.98"/>
+        <rect x="17" y="17" width="9" height="9" rx="1.98"/>
+        <g transform="rotate(12 23.7 23.7)">
+          <rect x="19.2" y="19.2" width="9" height="9" rx="1.98"/>
+        </g>
+      </g>
+    </mask>
+  </defs>
+  <g mask="url(#cando-behind-grid)" fill="#f4f5f7" stroke="#2b3440" stroke-width="1.1" stroke-linejoin="round">
+    <g transform="translate(0 -1.5)">
+      <rect x="23.8" y="13.9" width="11" height="13" rx="4.5" transform="rotate(10 29.3 20.4)"/>
+      <g transform="translate(-0.8 0) rotate(10 31.5 12.5)">
+        <rect x="37.6" y="10.2" width="2" height="4.6" rx="1"/>
+        <rect x="25" y="6.75" width="13" height="11.5" rx="4.8"/>
+        <rect x="26.5" y="9.1" width="9.4" height="7" rx="3" fill="#2b3440" stroke="none"/>
+        <circle cx="28.9" cy="12.2" r="1.05" fill="#6fdcef" stroke="none"/>
+        <circle cx="32.6" cy="12.2" r="1.05" fill="#6fdcef" stroke="none"/>
+        <path d="M29.6 14.4 Q30.8 15.3 32 14.4" fill="none" stroke="#6fdcef" stroke-width=".75" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>
+  <g transform="rotate(-8 16 16)">
+    <rect x="6" y="6" width="9" height="9" rx="1.98" fill="#6c93b8"/>
+    <rect x="17" y="6" width="9" height="9" rx="1.98" fill="#d9ae58"/>
+    <rect x="6" y="17" width="9" height="9" rx="1.98" fill="#b98868"/>
+    <rect x="17" y="17" width="9" height="9" rx="1.98" fill="none" stroke="#2b3440" stroke-width=".9" stroke-dasharray="1.4 1.1" opacity=".55"/>
+    <g transform="rotate(12 23.7 23.7)">
+      <rect x="19.2" y="19.2" width="9" height="9" rx="1.98" fill="#7fae8c"/>
+      <path d="M21 23.9 L23.1 26 L26.5 21.6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

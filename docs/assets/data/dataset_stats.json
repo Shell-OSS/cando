@@ -1,0 +1,89 @@
+{
+ "n_layouts": 900,
+ "area": {
+  "min": 390.3,
+  "max": 19358.8,
+  "median": 2763.6
+ },
+ "elements": {
+  "min": 7,
+  "max": 101,
+  "median": 21.0
+ },
+ "classes": {
+  "Entrance": {
+   "coverage": 1.0,
+   "mean_count": 1.37
+  },
+  "Exit": {
+   "coverage": 1.0,
+   "mean_count": 1.38
+  },
+  "Car Service Area": {
+   "coverage": 0.9978,
+   "mean_count": 3.4
+  },
+  "Bike Service Area": {
+   "coverage": 0.0867,
+   "mean_count": 1.78
+  },
+  "HGV Service Area": {
+   "coverage": 0.0867,
+   "mean_count": 1.37
+  },
+  "EV Service Area": {
+   "coverage": 0.2622,
+   "mean_count": 4.2
+  },
+  "Car Parking": {
+   "coverage": 0.9756,
+   "mean_count": 8.43
+  },
+  "Bike Parking": {
+   "coverage": 0.1644,
+   "mean_count": 5.26
+  },
+  "Priority Parking": {
+   "coverage": 0.1578,
+   "mean_count": 1.15
+  },
+  "HGV Parking": {
+   "coverage": 0.1467,
+   "mean_count": 2.01
+  },
+  "Shop": {
+   "coverage": 0.9967,
+   "mean_count": 1.01
+  },
+  "Underground Service Facility": {
+   "coverage": 1.0,
+   "mean_count": 3.92
+  },
+  "Underground Access Point": {
+   "coverage": 0.9989,
+   "mean_count": 1.04
+  }
+ },
+ "complexity_hist": [
+  6,
+  9,
+  17,
+  16,
+  34,
+  61,
+  72,
+  82,
+  81,
+  104,
+  85,
+  79,
+  46,
+  54,
+  41,
+  27,
+  29,
+  32,
+  19,
+  6
+ ]
+}

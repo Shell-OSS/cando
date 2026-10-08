@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CANDO · Cooperative Agentic Network for Layout Design Optimization (NeurIPS 2026)</title>
+  <meta name="description" content="CANDO is a training-free multi-agent framework for constraint-aware layout synthesis. ALPS-Bench is a benchmark of 1,000 professionally annotated real-world facility layouts with an instance-specific scoring protocol. NeurIPS 2026.">
+  <meta property="og:title" content="CANDO & ALPS-Bench · NeurIPS 2026">
+  <meta property="og:description" content="Cooperative agentic layout design, verified by tools. Plus a benchmark of 1,000 real facility layouts.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="nav-brand" href="#top" aria-label="CANDO home">
+      <img class="brand-logo" src="assets/img/cando_logo.png" alt="" width="38" height="30">
+      <span>CANDO</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#alps">ALPS-Bench</a>
+      <a href="#explorer">Explorer</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#playground" class="nav-cta">Playground</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <!-- ================================================================ HERO -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="venue-badge"><span class="dot"></span>NeurIPS 2026 · Main Track</p>
+          <h1 id="hero-title" class="hero-title">
+            <span class="hero-word">CANDO</span>
+            <span class="hero-sub"><span class="nb"><u>C</u>ooperative <u>A</u>gentic <u>N</u>etwork</span> <span class="nb">for Layout <u>D</u>esign <u>O</u>ptimization</span></span>
+          </h1>
+          <p class="hero-lede">Real sites have irregular boundaries, vehicles that must get through, and design manuals full of rules. We introduce <strong>ALPS-Bench</strong>, a benchmark of 1,000 real facility layouts scored by design-manual compliance. We also present <strong>CANDO</strong>, a training-free team of agents that plans, edits, and checks layouts with deterministic tools until they comply.</p>
+          <ul class="authors">
+            <li>Athanasios Masouris<sup>1</sup></li>
+            <li>Jing Zheng<sup>2</sup></li>
+            <li>Benjamin Chandler<sup>1</sup></li>
+            <li>Hadi Jamali-Rad<sup>1,3</sup></li>
+          </ul>
+          <p class="affiliations"><sup>1</sup>Shell Information Technology International · <sup>2</sup>Shell China Limited · <sup>3</sup>Delft University of Technology</p>
+          <div class="hero-actions">
+            <a class="btn btn-dark" href="#" data-link="paper"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z M14 2v6h6" /></svg>Paper</a>
+            <a class="btn" href="#" data-link="arxiv"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20" /></svg>arXiv</a>
+            <a class="btn" href="#" data-link="code"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5" /></svg>Code</a>
+            <a class="btn" href="#" data-link="dataset"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" /></svg>ALPS-Bench</a>
+            <a class="btn btn-accent" href="#playground"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l12 8-12 8z" /></svg>Try it</a>
+          </div>
+        </div>
+
+        <figure class="hero-stage" aria-label="Animated illustration of CANDO refining a layout">
+          <div class="stage-card">
+            <div class="stage-head">
+              <span class="stage-title">Refinement loop</span>
+              <span class="stage-iter">step <b id="hero-step">0</b> / <span id="hero-steps">6</span></span>
+            </div>
+            <div class="stage-canvas">
+              <svg id="hero-svg" role="img" aria-label="Layout being refined"></svg>
+            </div>
+            <div class="stage-agents" id="hero-agents">
+              <span data-agent="verifier">Verifier</span>
+              <span data-agent="historian">Historian</span>
+              <span data-agent="planner">Planner</span>
+              <span data-agent="generator">Generator</span>
+            </div>
+            <div class="stage-meter">
+              <div class="meter-row"><span>Geometric validity HC<sub>g</sub></span><div class="meter"><i id="hero-hc"></i></div><b id="hero-hc-v">0.00</b></div>
+              <div class="meter-row"><span>Soft constraints SCM</span><div class="meter"><i id="hero-scm"></i></div><b id="hero-scm-v">0.00</b></div>
+            </div>
+          </div>
+          <figcaption>A validation layout, scrambled and then repaired step by step. The scores come from our in-browser scorer.</figcaption>
+        </figure>
+      </div>
+      <a class="scroll-cue" href="#overview" aria-label="Scroll to overview"><span></span></a>
+    </section>
+
+    <!-- ================================================================ OVERVIEW -->
+    <section id="overview" class="section">
+      <div class="container">
+        <div class="stats-strip reveal">
+          <div class="stat"><b data-count="1000" data-format="comma">0</b><span>professionally annotated real facility layouts</span></div>
+          <div class="stat"><b data-count="74" data-suffix="%">0</b><span>compliant layouts with CANDO, vs. 22.4% for a GPT-5.2 single agent</span></div>
+          <div class="stat"><b data-count="0.62" data-decimals="2">0</b><span>AGG on the ALPS-Bench test set; the strongest baseline reaches 0.40</span></div>
+          <div class="stat"><b data-count="4" data-suffix="×">0</b><span>fewer LLM-call rounds to reach compliance (20.4τ vs. 80.6τ)</span></div>
+        </div>
+
+        <div class="split reveal">
+          <div>
+            <p class="eyebrow">TL;DR</p>
+            <h2 class="section-title">Layout generation has outgrown <em>distribution matching</em>.</h2>
+          </div>
+          <div class="prose">
+            <p>Most layout benchmarks place boxes on rectangular canvases and score results with FID or IoU. These metrics reward similarity to the training set, so a valid but unusual design gets marked down. Real asset design is harder. The site boundary is irregular, groups of elements need consistent orientations, placements depend on where the access points are, and vehicles must be able to drive through the finished layout.</p>
+            <p>We address this with a <strong>benchmark</strong> that scores each layout against a structured design manual instead of against other layouts, and a <strong>method</strong> that splits the reasoning across specialised agents. Deterministic tools handle the spatial arithmetic that LLMs get wrong.</p>
+          </div>
+        </div>
+
+        <div class="contrib-grid">
+          <article class="contrib reveal">
+            <span class="contrib-num">I</span>
+            <h3>ALPS-Bench</h3>
+            <p>1,000 real-asset layouts annotated from CAD drawings. They cover 14 semantic classes, irregular premises, and multiple access points, and each comes with a design manual of hard and soft constraints.</p>
+            <a href="#alps" class="link-arrow">Explore the benchmark</a>
+          </article>
+          <article class="contrib reveal">
+            <span class="contrib-num">II</span>
+            <h3>CANDO</h3>
+            <p>A cooperative, training-free team of agents: a Verifier, a Historian, a Planner, and a Generator. They repair an in-context seed layout through CoDe-style parallel branching, with every step checked by tools.</p>
+            <a href="#method" class="link-arrow">See how it works</a>
+          </article>
+          <article class="contrib reveal">
+            <span class="contrib-num">III</span>
+            <h3>Beyond facilities</h3>
+            <p>A simplified CANDO sets state-of-the-art mIoU and alignment on PubLayNet and RICO. On PKU-PosterLayout it has the lowest overlap and the best strict-underlay scores.</p>
+            <a href="#results" class="link-arrow">View results</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ ALPS-BENCH -->
+    <section id="alps" class="section section-tint">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">The benchmark</p>
+          <h2 class="section-title">ALPS-Bench: <em>Asset Layout Planning &amp; Synthesis</em></h2>
+          <p class="section-lede">Annotators traced polygons directly from the original CAD drawings of operational sites, so each layout reflects the site as built. The task: given the premise, its access points, and a list of elements with fixed shapes, find a position <math><msub><mi>𝐩</mi><mi>i</mi></msub></math> and an orientation <math><msub><mi>θ</mi><mi>i</mi></msub></math> for every element.</p>
+        </header>
+
+        <div class="anatomy reveal">
+          <div class="anatomy-figure">
+            <svg id="anatomy-svg" role="img" aria-label="Annotated ALPS-Bench layout"></svg>
+            <div class="anatomy-tip" id="anatomy-tip" hidden></div>
+          </div>
+          <div class="anatomy-side">
+            <h3>Anatomy of a layout</h3>
+            <p class="muted">Hover a class to highlight it. Elements are grouped into four functional families.</p>
+            <div id="anatomy-groups" class="class-groups"></div>
+          </div>
+        </div>
+
+        <div class="bench-stats">
+          <div class="card reveal">
+            <h3 class="card-title">Class distribution</h3>
+            <div class="seg-control" role="tablist" id="dist-toggle">
+              <button role="tab" aria-selected="true" data-mode="coverage">% of layouts</button>
+              <button role="tab" aria-selected="false" data-mode="mean_count">Mean count</button>
+            </div>
+            <div id="class-chart" class="hbar-chart"></div>
+            <p class="small muted" id="class-chart-note">Share of all 1,000 layouts that contain each class.</p>
+          </div>
+          <div class="card reveal">
+            <h3 class="card-title">At a glance</h3>
+            <dl class="facts" id="facts"></dl>
+            <div class="split-bar" aria-label="800 training, 100 validation and 100 test layouts">
+              <span class="seg-train" style="flex:8">Train · 800</span>
+              <span class="seg-val" style="flex:1.9">Val · 100</span>
+              <span class="seg-test" style="flex:1.9">Test · 100</span>
+            </div>
+            <div class="split-brace">
+              <span style="flex:9.9">𝒟<sup>dev</sup> · 900 layouts with ground truth</span>
+              <span style="flex:1.9">𝒟<sup>test</sup></span>
+            </div>
+            <p class="small muted">The development set 𝒟<sup>dev</sup> ships with full annotations and is split into 800 training and 100 validation layouts, for training, in-context retrieval, and tuning. Only the input requirements of the 100 test layouts are public. Their ground truth stays hidden for evaluation on a hosted server.</p>
+          </div>
+        </div>
+
+        <h3 class="sub-title reveal">The design manual</h3>
+        <div class="manual reveal">
+          <div class="seg-control manual-tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-tab="hard">Hard constraints</button>
+            <button role="tab" aria-selected="false" data-tab="soft">Soft constraints</button>
+          </div>
+          <div class="manual-panel is-active" data-panel="hard">
+            <article class="rule-card">
+              <div class="rule-visual" data-visual="containment"></div>
+              <h4>Containment</h4>
+              <p>Every placed element lies inside the premise: <math><msub><mi>Ω</mi><mi>i</mi></msub><mo>⊆</mo><mi>𝒫</mi></math>.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-visual" data-visual="overlap"></div>
+              <h4>Non-overlap</h4>
+              <p>No two surface elements intersect: <math><msub><mi>Ω</mi><mi>i</mi></msub><mo>∩</mo><msub><mi>Ω</mi><mi>j</mi></msub><mo>=</mo><mi>∅</mi></math>. Underground facilities may lie beneath surface elements.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-visual" data-visual="routing"></div>
+              <h4>Routing feasibility</h4>
+              <p>For every vehicle scenario, a collision-free path runs from an Entrance, through the required waypoints, to an Exit. Service areas are drive-through.</p>
+            </article>
+          </div>
+          <div class="manual-panel" data-panel="soft">
+            <article class="rule-card">
+              <div class="rule-visual" data-visual="composition"></div>
+              <h4>Compositionality · CO</h4>
+              <p>Elements of the same class form clusters. Odd-sized service clusters form a line; even-sized ones form a compact block (2×2, 2×3, …). Parking bays form strict lines.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-visual" data-visual="orientation"></div>
+              <h4>Orientation · OR</h4>
+              <p>Within a group, every element is parallel or perpendicular to the others, within 5°.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-visual" data-visual="proximity"></div>
+              <h4>Proximity · PR</h4>
+              <p>Stacking against the site boundary or the Shop, 3 m egress zones in front of parking bays, isolation of HGV service areas, and service-area hubs placed next to underground facilities.</p>
+            </article>
+          </div>
+        </div>
+
+        <h3 class="sub-title reveal">Routing scenarios</h3>
+        <div class="vehicles reveal" id="vehicles"></div>
+
+        <div class="voronoi reveal">
+          <div class="voronoi-copy">
+            <p class="eyebrow">Motion planning</p>
+            <h3>Voronoi-based routing checks</h3>
+            <ol class="steps">
+              <li><b>Premise.</b> Start from the layout of the scenario.</li>
+              <li><b>Inflate &amp; sample.</b> Grow every obstacle by a margin <math><mi>ϵ</mi></math> that depends on the vehicle, then sample seed points on the grown borders.</li>
+              <li><b>Medial axis.</b> Build a Voronoi diagram from the seeds. Its ridges run down the middle of each free corridor, as far from obstacles as possible.</li>
+              <li><b>Route.</b> Attach the Entrance, the waypoints, and the Exit to that graph, then run a shortest-path search.</li>
+            </ol>
+          </div>
+          <figure class="voronoi-figure">
+            <img src="assets/img/neurips_layout_steps.png" alt="Four-step illustration of Voronoi-based motion planning" loading="lazy">
+          </figure>
+        </div>
+
+        <h3 class="sub-title reveal">Scoring: constraint satisfaction, not similarity</h3>
+        <div class="metric-grid reveal">
+          <article class="metric-card">
+            <span class="metric-tag">HCM</span>
+            <p class="math-block"><math display="block"><mtext>HCM</mtext><mo>=</mo><mn>0.2</mn><mspace width="0.17em"></mspace><msub><mtext>HC</mtext><mtext>g</mtext></msub><mo>+</mo><mn>0.8</mn><mspace width="0.17em"></mspace><msub><mtext>HC</mtext><mtext>f</mtext></msub></math></p>
+            <p>Geometric validity (area-scaled penalties for overlaps and out-of-bounds parts) plus the fraction of feasible routing scenarios. A missing or wrongly sized element sets HCM to 0.</p>
+          </article>
+          <article class="metric-card">
+            <span class="metric-tag">SCM</span>
+            <p class="math-block"><math display="block"><mtext>SCM</mtext><mo>=</mo><mn>0.6</mn><mspace width="0.17em"></mspace><mtext>PR</mtext><mo>+</mo><mn>0.3</mn><mspace width="0.17em"></mspace><mtext>CO</mtext><mo>+</mo><mn>0.1</mn><mspace width="0.17em"></mspace><mtext>OR</mtext></math></p>
+            <p>Soft constraints from the design manual. The weights are proportional to the number of rules in each category.</p>
+          </article>
+          <article class="metric-card">
+            <span class="metric-tag">RE</span>
+            <p class="math-block"><math display="block"><mtext>RE</mtext><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>3</mn></mfrac></mstyle><mo form="prefix">(</mo><mtext>PL</mtext><mo>+</mo><mtext>MN</mtext><mo>+</mo><mtext>PC</mtext><mo form="postfix">)</mo></math></p>
+            <p>Path length, manoeuvrability (number of sharp turns), and path clearance, each compared with the hidden ground truth. A score of 0.5 means parity with the ground truth.</p>
+          </article>
+          <article class="metric-card metric-card-wide">
+            <span class="metric-tag">AGG</span>
+            <p class="math-block"><math display="block"><mtext>AGG</mtext><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo form="prefix">(</mo><mtext>CS</mtext><mo>+</mo><mtext>RE</mtext><mo form="postfix">)</mo><mo>,</mo><mspace width="1em"></mspace><mtext>CS</mtext><mo>=</mo><mrow><mo>{</mo><mtable columnalign="left left" columnspacing="1em"><mtr><mtd><mtext>SCM</mtext></mtd><mtd><mtext>HCM</mtext><mo>=</mo><mn>1</mn></mtd></mtr><mtr><mtd><mn>0.5</mn><mspace width="0.17em"></mspace><mtext>HCM</mtext><mo>⋅</mo><mtext>SCM</mtext></mtd><mtd><mtext>otherwise</mtext></mtd></mtr></mtable></mrow></math></p>
+            <p>An invalid layout keeps at most half of its soft-constraint score.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ EXPLORER -->
+    <section id="explorer" class="section">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Dataset viewer</p>
+          <h2 class="section-title">Browse the <em>validation split</em></h2>
+          <p class="section-lede">All 100 layouts of the validation split (part of 𝒟<sup>dev</sup>, alongside 800 training layouts), drawn in the browser in the same style as the released dataset images. Filter by class, sort by complexity, and open a layout to inspect individual elements.</p>
+        </header>
+        <div class="explorer-toolbar reveal">
+          <div class="chip-filter" id="class-filter" aria-label="Filter by class"></div>
+          <div class="toolbar-right">
+            <label class="select">
+              <span>Sort</span>
+              <select id="explorer-sort">
+                <option value="complexity-desc">Most complex</option>
+                <option value="complexity-asc">Least complex</option>
+                <option value="n-desc">Most elements</option>
+                <option value="area-desc">Largest premise</option>
+                <option value="area-asc">Smallest premise</option>
+              </select>
+            </label>
+            <span class="count-pill" id="explorer-count"></span>
+          </div>
+        </div>
+        <div class="gallery" id="gallery"></div>
+        <div class="gallery-more"><button class="btn" id="gallery-more">Show more</button></div>
+      </div>
+    </section>
+
+    <dialog class="viewer" id="viewer" aria-label="Layout viewer">
+      <div class="viewer-inner">
+        <header class="viewer-head">
+          <div>
+            <p class="eyebrow">Validation layout</p>
+            <h3 id="viewer-title" class="mono"></h3>
+          </div>
+          <div class="viewer-actions">
+            <div class="seg-control" id="viewer-mode">
+              <button aria-selected="true" data-mode="gt">Ground truth</button>
+              <button aria-selected="false" data-mode="input">Input requirements</button>
+            </div>
+            <button class="btn btn-small" id="viewer-play">Open in Playground</button>
+            <button class="icon-btn" id="viewer-close" aria-label="Close">✕</button>
+          </div>
+        </header>
+        <div class="viewer-body">
+          <div class="viewer-figure">
+            <svg id="viewer-svg"></svg>
+            <div class="inventory" id="viewer-inventory" hidden></div>
+            <div class="hover-card" id="viewer-hover" hidden></div>
+          </div>
+          <aside class="viewer-side">
+            <div id="viewer-legend"></div>
+            <p class="small muted">Click a legend entry to hide or show that class.</p>
+            <dl class="facts compact" id="viewer-facts"></dl>
+          </aside>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- ================================================================ METHOD -->
+    <section id="method" class="section section-dark">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">The method</p>
+          <h2 class="section-title">CANDO: agents that <em>cooperate</em>, tools that <em>verify</em></h2>
+          <p class="section-lede">Language models are weak at coordinate arithmetic. CANDO lets the models make the strategic decisions (what to move, and why) and leaves the geometry to deterministic tools. The method works in two phases: an in-context seed, then a cooperative refinement loop.</p>
+        </header>
+
+        <div class="agent-lab reveal">
+          <div class="agent-diagram">
+            <svg id="agent-svg" viewBox="0 0 720 470" role="img" aria-label="Interactive CANDO agent diagram"></svg>
+            <div class="agent-controls">
+              <button class="btn btn-small btn-ghost" id="agent-play" aria-pressed="true">Pause loop</button>
+              <span class="small muted">Click an agent to see what it does.</span>
+            </div>
+          </div>
+          <aside class="agent-panel" id="agent-panel" aria-live="polite"></aside>
+        </div>
+
+        <div class="code-lab reveal">
+          <div class="code-copy">
+            <p class="eyebrow">Search</p>
+            <h3>Parallel branching with blockwise best-of-N</h3>
+            <p>CANDO adapts CoDe’s blockwise sampling from diffusion models. At the start of each block, the current best layout is copied into <b>N</b> branches. Each branch runs <b>B</b> history-aware planning–generation–verification steps with its own memory. At the end of the block, the branch with the highest verified score is kept and copied again. This lets CANDO explore different repairs in parallel without committing to one too early.</p>
+            <div class="sliders">
+              <label>N (branches) <input type="range" min="1" max="6" value="4" id="code-n"><output id="code-n-v">4</output></label>
+              <label>B (block size) <input type="range" min="1" max="10" value="5" id="code-b"><output id="code-b-v">5</output></label>
+            </div>
+            <p class="small muted">Illustration with simulated scores. With B = T, CoDe reduces to plain best-of-N. The paper uses N=4, B=10, K=6, W=6, T=20.</p>
+          </div>
+          <div class="code-chart">
+            <svg id="code-svg" viewBox="0 0 560 320" role="img" aria-label="Illustration of CoDe branching"></svg>
+            <button class="btn btn-small btn-ghost" id="code-replay">Replay</button>
+          </div>
+        </div>
+
+        <div class="strategies reveal">
+          <div>
+            <p class="eyebrow">Generator</p>
+            <h3>An ensemble of eight repair strategies</h3>
+            <p class="muted">Each branch gets strategies at random. Some follow the plan and some ignore it. Without this mix, the regression rate climbs from 7.0% to 18.4%.</p>
+          </div>
+          <div class="strategy-grid" id="strategy-grid"></div>
+        </div>
+
+        <details class="algo reveal">
+          <summary>Algorithm 1 · CANDO</summary>
+          <pre class="mono"><span class="kw">Require</span> ℐ, 𝒟<sup>dev</sup>, N, B, K, W, T
+ℋ<sup>(0)</sup> ← ∅ ;  t ← 0
+(𝐪̄<sup>(0)</sup>, ℱ<sup>(0)</sup>) ← <span class="fn">Verifier</span>({<span class="fn">ICLInit</span>(ℐ, 𝒟<sup>dev</sup>)})
+<span class="kw">while</span> t ≤ T − B <span class="kw">do</span>
+    {ℋ<span class="ss"><sup>(t)</sup><sub>n</sub></span>, ℱ<span class="ss"><sup>(t)</sup><sub>n</sub></span>, 𝐪<span class="ss"><sup>(t)</sup><sub>n</sub></span>}<span class="ss"><sup>N</sup><sub>n=1</sub></span> ← <span class="fn">Replicate</span>(ℋ<sup>(t)</sup>, ℱ<sup>(t)</sup>, 𝐪̄<sup>(t)</sup>)
+    <span class="kw">for</span> b = 0, …, B−1 <span class="kw">do</span>                        <span class="cm">▷ ∀ n ∈ [N], in parallel</span>
+        ℋ<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span> ← <span class="fn">Historian</span>(ℋ<span class="ss"><sup>(t+b)</sup><sub>n</sub></span>, ℱ<span class="ss"><sup>(t+b)</sup><sub>n</sub></span>, W)
+        Π<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span> ← <span class="fn">Planner</span>(𝐪<span class="ss"><sup>(t+b)</sup><sub>n</sub></span>, ℱ<span class="ss"><sup>(t+b)</sup><sub>n</sub></span>, ℋ<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span>)
+        𝒬<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span> ← <span class="fn">Generator</span>(𝐪<span class="ss"><sup>(t+b)</sup><sub>n</sub></span>, Π<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span>, K)
+        (𝐪̄<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span>, ℱ<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span>) ← <span class="fn">Verifier</span>(𝒬<span class="ss"><sup>(t+b+1)</sup><sub>n</sub></span>)
+    t ← t + B
+    (𝐪̄<sup>(t)</sup>, ℱ<sup>(t)</sup>, ℋ<sup>(t)</sup>) ← <span class="fn">BoN</span>({𝐪̄<span class="ss"><sup>(t)</sup><sub>n</sub></span>, ℱ<span class="ss"><sup>(t)</sup><sub>n</sub></span>, ℋ<span class="ss"><sup>(t)</sup><sub>n</sub></span>}<span class="ss"><sup>N</sup><sub>n=1</sub></span>)
+<span class="kw">end while</span>, <span class="kw">return</span> 𝐪̄<sup>(T)</sup></pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- ================================================================ RESULTS -->
+    <section id="results" class="section">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Results</p>
+          <h2 class="section-title">Better layouts in <em>fewer</em> steps</h2>
+          <p class="section-lede">Both CANDO variants significantly outperform every baseline on AGG, CS, and RE (paired Wilcoxon, Holm-corrected <math><mi>p</mi><mo>≤</mo><mn>0.0059</mn></math>). This includes models trained on ALPS-Bench and a GPT-5.2 agent that has CANDO’s own tools.</p>
+        </header>
+
+        <div class="results-main reveal">
+          <div class="card">
+            <div class="card-head">
+              <h3 class="card-title">ALPS-Bench test set</h3>
+              <div class="seg-control" id="alps-metric">
+                <button aria-selected="true" data-metric="agg">AGG</button>
+                <button aria-selected="false" data-metric="cs">CS</button>
+                <button aria-selected="false" data-metric="re">RE</button>
+                <button aria-selected="false" data-metric="compliance">Compliance</button>
+              </div>
+            </div>
+            <div id="alps-chart" class="bar-race"></div>
+            <p class="small muted legend-inline"><span>◆ diffusion</span><span>▲ single LLM/MLLM</span><span>● agentic</span><span>† trained / fine-tuned on ALPS-Bench</span></p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Effort to reach compliance</h3>
+            <div id="effort-chart" class="effort"></div>
+            <p class="small muted">τ is the cost of one LLM call. CANDO makes four sequential agent calls per step, and its steps run in parallel.</p>
+            <figure class="traj">
+              <img src="assets/img/cs_trajectory_dual_axis.png" alt="Mean CS score versus refinement steps" loading="lazy">
+              <figcaption class="small muted">Mean CS vs. refinement budget T.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-head">
+            <h3 class="card-title">Public benchmarks</h3>
+            <div class="seg-control" id="pub-tabs">
+              <button aria-selected="true" data-bench="rico">RICO</button>
+              <button aria-selected="false" data-bench="publaynet">PubLayNet</button>
+              <button aria-selected="false" data-bench="pku">PKU-PosterLayout</button>
+            </div>
+          </div>
+          <div id="pub-table" class="table-wrap"></div>
+          <p class="small muted" id="pub-note"></p>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-head">
+            <h3 class="card-title">What matters? Component ablation</h3>
+            <div class="seg-control" id="abl-metric">
+              <button aria-selected="true" data-metric="compliant">Compliant layouts</button>
+              <button aria-selected="false" data-metric="agg">AGG</button>
+              <button aria-selected="false" data-metric="regression">Regression rate</button>
+            </div>
+          </div>
+          <div id="ablation-chart" class="ablation"></div>
+          <p class="small muted">Regression rate is the share of refinement steps that lower the verification score. <sup>*</sup>Without tools, the Verifier works as an LLM-as-a-judge and overestimates compliance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ PLAYGROUND -->
+    <section id="playground" class="section section-tint">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Interactive</p>
+          <h2 class="section-title">Layout playground: <em>be the Generator</em></h2>
+          <p class="section-lede">Pick a validation layout and scramble it. Then drag and rotate elements to repair it, and press <b>Evaluate</b> to get the scores and feedback that CANDO’s Verifier would give you. The premise, Entrances, and Exits stay fixed.</p>
+        </header>
+
+        <div class="studio reveal">
+          <div class="studio-toolbar">
+            <label class="select">
+              <span>Layout</span>
+              <select id="pg-sample"></select>
+            </label>
+            <button class="btn btn-small" id="pg-scramble" title="Randomly displace elements">Scramble</button>
+            <button class="btn btn-small" id="pg-reset" title="Restore ground truth">Ground truth</button>
+            <button class="btn btn-small btn-ghost" id="pg-undo" title="Undo (Ctrl/⌘+Z)">Undo</button>
+            <div class="toolbar-sep"></div>
+            <label class="toggle" title="Highlight overlaps and out-of-bounds elements while editing"><input type="checkbox" id="pg-live" checked><span></span>Live check</label>
+            <label class="toggle" title="Draw the best route of every vehicle scenario after evaluation"><input type="checkbox" id="pg-routes" checked><span></span>Routes</label>
+            <label class="toggle" title="Show the 3 m egress zones of stacked parking bays"><input type="checkbox" id="pg-zones"><span></span>Egress</label>
+            <label class="toggle" title="Snap rotations to neighbours / 5° steps and edges flush against nearby edges (hold Alt to disable)"><input type="checkbox" id="pg-snap" checked><span></span>Snap</label>
+          </div>
+          <div class="studio-body">
+            <div class="studio-canvas" id="pg-canvas">
+              <svg id="pg-svg" tabindex="0" aria-label="Editable layout canvas"></svg>
+              <div class="studio-hint" id="pg-hint">Drag to move · drag the ◯ handle to rotate · <kbd>Q</kbd>/<kbd>E</kbd> rotate 5° (<kbd>Shift</kbd> 1°) · <kbd>R</kbd> rotate 90° · arrow keys nudge</div>
+              <div class="studio-legend" id="pg-legend"></div>
+            </div>
+            <aside class="studio-panel">
+              <button class="btn btn-accent btn-block" id="pg-eval"><span class="btn-label">Evaluate layout</span><span class="spinner" aria-hidden="true"></span></button>
+              <div class="score-hero">
+                <div class="ring" id="pg-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="ring-bg"/><circle cx="60" cy="60" r="52" class="ring-fg" id="pg-ring-fg"/></svg><div><b id="pg-agg">–</b><span>AGG</span></div></div>
+                <div class="score-pair">
+                  <div><span>CS</span><b id="pg-cs">–</b></div>
+                  <div><span>RE<sup>≈</sup></span><b id="pg-re">–</b></div>
+                </div>
+              </div>
+              <div class="score-bars" id="pg-bars"></div>
+              <p class="small muted" id="pg-gt-note"></p>
+              <div class="feedback" id="pg-feedback">
+                <p class="muted small">Press <b>Evaluate</b> to run the Verifier.</p>
+              </div>
+              <p class="tiny muted">Routing (HC<sub>f</sub>, RE) is <b>approximate</b>: it searches a rasterised version of the same free space rather than a Voronoi medial axis. Use the official evaluator for reportable numbers.</p>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ CITATION -->
+    <section id="cite" class="section">
+      <div class="container narrow">
+        <header class="section-head reveal">
+          <p class="eyebrow">Citation</p>
+          <h2 class="section-title">BibTeX</h2>
+        </header>
+        <div class="bibtex reveal">
+<pre class="mono" id="bibtex">BibTeX coming soon, once the NeurIPS 2026 proceedings are published.</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="nav-brand"><img class="brand-logo" src="assets/img/cando_logo.png" alt="" width="38" height="30">CANDO · ALPS-Bench</span>
+      <a href="#top" class="small">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
