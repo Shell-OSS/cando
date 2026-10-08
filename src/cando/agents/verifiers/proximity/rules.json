@@ -1,0 +1,217 @@
+{
+  "priorities": {
+    "Priority Parking": 100,
+    "Shop": 80,
+    "Car Parking": 50,
+    "Bike Parking": 40,
+    "HGV Parking": 40,
+    "EV Service Area": 30,
+    "Car Service Area": 20,
+    "Bike Service Area": 20,
+    "HGV Service Area": 20,
+    "Underground Service Facility": 10,
+    "Underground Access Point": 10
+  },
+  "rules": [
+    {
+      "id": "1",
+      "description": "Each Underground Access Point must be stacked against an edge of the Layout Polygon, within 20m of at least one Car Service Area or Underground Service Facility.",
+      "type": "stacking",
+      "source_class": "Underground Access Point",
+      "source_edge": "longer",
+      "target_class": "Layout Polygon",
+      "target_edge": "any",
+      "proximity_targets": [
+        "Car Service Area",
+        "Underground Service Facility"
+      ],
+      "parameters": {
+        "stacking_tolerance": 0.5,
+        "proximity_preference": "minimize",
+        "max_proximity_distance": 20
+      }
+    },
+    {
+      "id": "2",
+      "description": "The shorter edge of Car Parking should preferably be stacked against the longer edge of Shop. Alternatively, Car Parking can also be placed proximally adjacent to an edge of Layout Polygon.",
+      "type": "stacking_or_adjacency",
+      "source_class": "Car Parking",
+      "source_edge": "shorter",
+      "primary_target": {
+        "classes": [
+          "Shop"
+        ],
+        "edge": "longer",
+        "relation": "stacking"
+      },
+      "alternative_target": {
+        "class": "Layout Polygon",
+        "edge": "any",
+        "relation": "adjacency"
+      },
+      "parameters": {
+        "stacking_tolerance": 0.5,
+        "adjacency_tolerance": 2.0
+      }
+    },
+    {
+      "id": "3",
+      "description": "When a parking space is stacked against any target, maintain an outward 180-degree maneuvering clearance of around 3 mtr from the exit edge opposite the stacked side.",
+      "type": "clearance",
+      "source_classes": [
+        "Car Parking",
+        "Bike Parking",
+        "Priority Parking",
+        "HGV Parking",
+        "EV Service Area"
+      ],
+      "condition": "stacked",
+      "clearance_radius": 3.0,
+      "clearance_mode": "stacked_parking_exit",
+      "allowed_classes_in_clearance": [
+        "Layout Polygon",
+        "Underground Service Facility",
+        "Car Parking",
+        "Bike Parking",
+        "Priority Parking",
+        "HGV Parking",
+        "EV Service Area",
+        "Entrance",
+        "Exit"
+      ],
+      "parameters": {
+        "stacking_tolerance": 0.5,
+        "tolerance": 0.5
+      }
+    },
+    {
+      "id": "4",
+      "description": "The shorter edge of Priority Parking must be stacked against an edge of Shop and should be the closest to the Entrance.",
+      "type": "stacking",
+      "source_class": "Priority Parking",
+      "source_edge": "shorter",
+      "target_classes": [
+        "Shop"
+      ],
+      "target_edge": "any",
+      "parameters": {
+        "stacking_tolerance": 0.5
+      },
+      "entrance_proximate": true
+    },
+    {
+      "id": "7",
+      "description": "EV Service Area is ideally stacked against an edge of the Layout Polygon while being as close as possible to Shop. Alternatively, its shorter edge can be stacked against any edge of Shop.",
+      "type": "stacking_or_adjacency",
+      "source_class": "EV Service Area",
+      "source_edge": "any",
+      "primary_target": {
+        "class": "Layout Polygon",
+        "edge": "any",
+        "source_edge": "any",
+        "relation": "stacking"
+      },
+      "alternative_target": {
+        "class": "Shop",
+        "edge": "any",
+        "source_edge": "shorter",
+        "relation": "stacking"
+      },
+      "parameters": {
+        "stacking_tolerance": 0.5,
+        "adjacency_tolerance": 2.0
+      }
+    },
+    {
+      "id": "9",
+      "description": "HGV Service Area is preferably placed at a distance (roughly > 6mtrs) from Car Service Area and Bike Service Area.",
+      "type": "distance",
+      "source_class": "HGV Service Area",
+      "target_classes": [
+        "Car Service Area",
+        "Bike Service Area"
+      ],
+      "parameters": {
+        "min_distance": 6.0,
+        "tolerance": 0.5
+      }
+    },
+    {
+      "id": "10",
+      "description": "Within each group of Underground Service Facilities, at least one must be proximally adjacent to a Car, Bike, or HGV Service Area.",
+      "type": "adjacency",
+      "source_class": "Underground Service Facility",
+      "parameters": {
+        "max_distance": 5.0,
+        "tolerance": 0.5
+      },
+      "group_satisfaction": true,
+      "target_classes": [
+        "Car Service Area",
+        "Bike Service Area",
+        "HGV Service Area"
+      ]
+    },
+    {
+      "id": "11",
+      "description": "Shorter edge of Bike Parking is ideally stacked against an edge of the Layout Polygon.",
+      "type": "stacking",
+      "source_class": "Bike Parking",
+      "source_edge": "shorter",
+      "target_class": "Layout Polygon",
+      "target_edge": "any",
+      "parameters": {
+        "stacking_tolerance": 0.5
+      }
+    },
+    {
+      "id": "12",
+      "description": "HGV Parking is ideally stacked against an edge of the Layout Polygon.",
+      "type": "stacking",
+      "source_class": "HGV Parking",
+      "source_edge": "any",
+      "target_class": "Layout Polygon",
+      "target_edge": "any",
+      "parameters": {
+        "stacking_tolerance": 0.5
+      }
+    },
+    {
+      "id": "14",
+      "description": "The longer edge of Shop should preferably be placed proximally adjacent to an edge of Layout Polygon.",
+      "type": "stacking_or_adjacency",
+      "source_class": "Shop",
+      "source_edge": "longer",
+      "primary_target": {
+        "class": "Layout Polygon",
+        "edge": "any",
+        "relation": "adjacency"
+      },
+      "alternative_target": {
+        "class": "Layout Polygon",
+        "edge": "any",
+        "relation": "stacking"
+      },
+      "parameters": {
+        "stacking_tolerance": 5.0,
+        "adjacency_tolerance": 5.0
+      }
+    },
+    {
+      "id": "15",
+      "description": "Each group of Car, Bike, or HGV Service Area should have at least one Underground Service Facility proximally adjacent.",
+      "type": "adjacency",
+      "source_classes": [
+        "Car Service Area",
+        "Bike Service Area",
+        "HGV Service Area"
+      ],
+      "target_class": "Underground Service Facility",
+      "group_satisfaction": true,
+      "parameters": {
+        "max_distance": 10.0,
+        "tolerance": 0.5
+      }
+    }
+  ]
+}

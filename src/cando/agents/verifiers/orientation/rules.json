@@ -1,0 +1,9 @@
+[
+  {
+    "type": "within_group_consistency",
+    "description": "Elements within the same spatial group should maintain consistent orientation (preferably parallel).",
+    "check_type": "within_clusters",
+    "orientation_requirement": "parallel_or_perpendicular",
+    "tolerance_deg": 5.0
+  }
+]

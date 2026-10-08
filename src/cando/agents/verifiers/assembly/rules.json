@@ -1,0 +1,114 @@
+[
+  {
+    "rule_id": 1,
+    "type": "assembly_constraint",
+    "element": "Car Service Area",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "rectangular_or_single_line",
+        "rules_for_counts": {
+          "odd": "single_line",
+          "even": "rectangular_blocks"
+        },
+        "examples": "5 -> '1x5' or '5x1', 6 -> '2x3' or '3x2'"
+      },
+      "distance_threshold": 3.0,
+      "average_group_size": 4
+    }
+  },
+  {
+    "rule_id": 2,
+    "type": "assembly_constraint",
+    "element": "Bike Service Area",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "rectangular_or_single_line",
+        "rules_for_counts": {
+          "odd": "single_line",
+          "even": "rectangular_blocks"
+        },
+        "examples": "5 -> '1x5' or '5x1', 6 -> '2x3' or '3x2'"
+      },
+      "distance_threshold": 3.0,
+      "average_group_size": 2
+    }
+  },
+  {
+    "rule_id": 4,
+    "type": "assembly_constraint",
+    "element": "HGV Service Area",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "single_line"
+      },
+      "distance_threshold": 10.0,
+      "average_group_size": 2
+    }
+  },
+  {
+    "rule_id": 5,
+    "type": "assembly_constraint",
+    "element": "Underground Service Facility",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "rectangular_or_single_line"
+      },
+      "distance_threshold": 1.0,
+      "average_group_size": 2
+    }
+  },
+  {
+    "rule_id": 6,
+    "type": "assembly_constraint",
+    "element": "Priority Parking",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "single_line"
+      },
+      "distance_threshold": 1.0,
+      "average_group_size": 2
+    }
+  },
+  {
+    "rule_id": 7,
+    "type": "assembly_constraint",
+    "element": "Car Parking",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "single_line"
+      },
+      "distance_threshold": 0.5,
+      "average_group_size": 3
+    }
+  },
+  {
+    "rule_id": 8,
+    "type": "assembly_constraint",
+    "element": "Bike Parking",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "single_line"
+      },
+      "distance_threshold": 0.5,
+      "average_group_size": 4
+    }
+  },
+  {
+    "rule_id": 12,
+    "type": "assembly_constraint",
+    "element": "EV Service Area",
+    "conditions": {
+      "requires_multiple_instances": true,
+      "arrangement": {
+        "pattern": "single_line"
+      }
+    }
+  }
+]

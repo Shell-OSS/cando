@@ -1,0 +1,58 @@
+# Python bytecode and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+
+# Test, coverage, lint, and type-check caches
+.hypothesis/
+.nox/
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+
+# Research datasets and generated feature artifacts
+/data/*
+!/data/README.md
+!/data/.gitkeep
+!/data/sample_images/
+!/data/train/
+!/data/val/
+!/data/test/
+*.parquet
+
+# Experiment logs and generated results
+/logs/
+/results/*
+*.log
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
+
+# Website development dependencies
+node_modules/
