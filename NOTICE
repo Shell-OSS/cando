@@ -1,0 +1,9 @@
+CANDO
+Copyright (c) 2026 The CANDO Contributors
+
+This product is licensed under the Apache 2.0 License (see LICENSE).
+
+Third-Party Material
+====================
+
+This repository does not vendor, bundle, or modify the source code or binaries of any third-party software. Python dependencies declared in pyproject.toml and pinned in uv.lock are installed by the user from their upstream package indexes and remain under their own licenses; they are not redistributed here.
