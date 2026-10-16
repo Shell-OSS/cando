@@ -131,4 +131,4 @@ If you use CANDO or ALPS-Bench, please cite the paper. The BibTeX entry will be 
 
 ## License
 
-The repository code is released under the [MIT License](LICENSE). Third-party attributions are listed in [NOTICE](NOTICE).
+The repository code is released under the [Apache 2.0 License](LICENSE). Third-party attributions are listed in [NOTICE](NOTICE).
