@@ -24,6 +24,7 @@
     <nav class="nav-links" aria-label="Sections">
       <a href="#overview">Overview</a>
       <a href="#alps">ALPS-Bench</a>
+      <a href="#leaderboard">Leaderboard</a>
       <a href="#explorer">Explorer</a>
       <a href="#method">Method</a>
       <a href="#results">Results</a>
@@ -261,6 +262,24 @@
             <p>An invalid layout keeps at most half of its soft-constraint score.</p>
           </article>
         </div>
+
+        <h3 class="sub-title reveal" id="leaderboard">Leaderboard</h3>
+        <div class="card reveal lb-card">
+          <div class="card-head">
+            <h3 class="card-title">ALPS-Bench Codabench Competition</h3>
+            <a class="btn btn-small btn-accent" id="lb-codabench" href="#" target="_blank" rel="noopener" hidden>View on Codabench<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" /></svg></a>
+          </div>
+          <div class="table-wrap">
+            <table class="results lb-table">
+              <thead>
+                <tr><th>#</th><th>Method</th><th class="lb-text">Team</th><th class="lb-text">Date</th><th class="lb-text">Links</th><th>CS</th><th>RE</th><th class="lb-agg" aria-sort="descending">AGG <span aria-hidden="true">↓</span></th></tr>
+              </thead>
+              <tbody id="lb-body"><tr><td class="lb-empty" colspan="8">Loading…</td></tr></tbody>
+            </table>
+          </div>
+          <div class="lb-more"><button class="btn btn-small" id="lb-more" type="button" hidden></button></div>
+          <p class="small muted" id="lb-meta"></p>
+        </div>
       </div>
     </section>
 
@@ -348,7 +367,7 @@
           <div class="code-copy">
             <p class="eyebrow">Search</p>
             <h3>Parallel branching with blockwise best-of-N</h3>
-            <p>CANDO adapts CoDe’s blockwise sampling from diffusion models. At the start of each block, the current best layout is copied into <b>N</b> branches. Each branch runs <b>B</b> history-aware planning–generation–verification steps with its own memory. At the end of the block, the branch with the highest verified score is kept and copied again. This lets CANDO explore different repairs in parallel without committing to one too early.</p>
+            <p>CANDO adapts CoDe's blockwise sampling from diffusion models. At the start of each block, the current best layout is copied into <b>N</b> branches. Each branch runs <b>B</b> history-aware planning–generation–verification steps with its own memory. At the end of the block, the branch with the highest verified score is kept and copied again. This lets CANDO explore different repairs in parallel without committing to one too early.</p>
             <div class="sliders">
               <label>N (branches) <input type="range" min="1" max="6" value="4" id="code-n"><output id="code-n-v">4</output></label>
               <label>B (block size) <input type="range" min="1" max="10" value="5" id="code-b"><output id="code-b-v">5</output></label>

@@ -447,7 +447,6 @@ input[type="range"] { accent-color: #d9ae58; width: 100%; }
 .race-fill { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: 7px; background: #c9cdd4; transition: width 1s var(--ease); display: flex; align-items: center; justify-content: flex-end; }
 .race-row.is-ours .race-fill { background: linear-gradient(90deg, #6c93b8, #3f6c8a); }
 .race-val { position: absolute; top: 50%; transform: translateY(-50%); font: 500 .78rem var(--mono); color: var(--ink-2); transition: left 1s var(--ease); padding-left: 8px; white-space: nowrap; }
-.race-row.is-ours .race-val.is-inside { color: #fff; }
 .race-err { position: absolute; top: 50%; height: 2px; background: rgba(0, 0, 0, .25); transform: translateY(-50%); transition: all 1s var(--ease); }
 .legend-inline { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0 0; }
 .effort { display: grid; gap: 14px; margin: 8px 0 18px; }
@@ -469,6 +468,28 @@ table.results td.second { text-decoration: underline; text-underline-offset: 3px
 table.results tbody tr { transition: background .2s; }
 table.results tbody tr:hover td { background: var(--bg); }
 table.results tr.group-start td { border-top: 2px solid var(--line-2); }
+.lb-card { margin-bottom: 0; }
+.lb-card [hidden] { display: none; }
+table.lb-table th.lb-text, table.lb-table td.lb-text { text-align: left; }
+table.lb-table td.lb-empty { text-align: center; color: var(--muted); padding: 28px 12px; white-space: normal; }
+table.lb-table .lb-agg { background: rgba(63, 108, 138, .08); font-weight: 600; }
+table.lb-table tbody tr:hover td.lb-agg { background: rgba(63, 108, 138, .14); }
+table.lb-table td.lb-rank { width: 44px; font: 500 .86rem var(--mono); color: var(--muted); }
+.lb-medal { width: 26px; height: 30px; display: block; }
+.lb-medal .ribbon { fill: var(--accent); }
+.lb-medal .disc { stroke: rgba(0, 0, 0, .12); stroke-width: 1; }
+.lb-medal text { fill: #fff; font: 700 9px var(--sans); }
+.lb-medal-1 .disc { fill: #d9a520; }
+.lb-medal-2 .disc { fill: #a7adb5; }
+.lb-medal-3 .disc { fill: #b9754a; }
+.lb-link { display: inline-flex; align-items: center; vertical-align: middle; margin-right: 10px; color: var(--ink-2); }
+.lb-link:hover { color: var(--accent); text-decoration: none; }
+.lb-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.lb-icon-github { fill: currentColor; stroke: none; }
+.lb-icon-gitlab { fill: #fc6d26; stroke: none; }
+.lb-badge { font: 700 .7rem var(--sans); color: #fff; background: #b31b1b; border-radius: 4px; padding: 2px 5px; letter-spacing: .02em; }
+.lb-emoji { font-size: 1.05rem; line-height: 1; }
+.lb-more { display: flex; justify-content: center; margin-top: 14px; }
 .ablation { display: grid; gap: 8px; }
 .abl-row { display: grid; grid-template-columns: 220px 1fr 70px; gap: 14px; align-items: center; font-size: .86rem; }
 .abl-row.is-full { font-weight: 600; }
