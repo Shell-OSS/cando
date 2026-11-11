@@ -1694,8 +1694,11 @@ class VoronoiPathFinder:
             try:
                 # Enforce no-backtracking constraints via edge penalties
                 MAX_PENALTY = 1000000.0
+                # The corridor is the last edge between two graph nodes on the
+                # way in; a single node means both waypoints hang off it.
+                has_corridor = len(approach_nodes) >= 2
                 needs_modification = bool(
-                    is_csa or (backtracking_restricted and approach_nodes)
+                    is_csa or (backtracking_restricted and has_corridor)
                 )
 
                 if needs_modification:
@@ -1713,7 +1716,7 @@ class VoronoiPathFinder:
 
                     # Prevent backtracking through the approach corridor by
                     # penalizing the final edge instead of removing nodes.
-                    if (is_csa or backtracking_restricted) and approach_nodes:
+                    if (is_csa or backtracking_restricted) and has_corridor:
                         if temp_graph.has_edge(
                             approach_nodes[-1], approach_nodes[-2]
                         ):
@@ -1765,9 +1768,11 @@ class VoronoiPathFinder:
 
                 # Track approach nodes to discourage service-area
                 # backtracking.
-                for node in segment:
-                    if not str(node).startswith("wp_"):
-                        approach_nodes.append(node)
+                approach_nodes = [
+                    node
+                    for node in segment
+                    if not str(node).startswith("wp_")
+                ]
 
             except nx.NetworkXNoPath:
                 return [], float("inf")

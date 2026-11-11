@@ -1,0 +1,31 @@
+{
+  "fetched_at": "2026-11-11T14:11:43+00:00",
+  "submissions": [
+    {
+      "id": 1046763,
+      "owner": "Athanasios Masouris",
+      "created_when": "2026-11-10T20:45:36.917273Z",
+      "fact_sheet_answers": {
+        "code_url": "https://github.com/Shell-OSS/cando",
+        "paper_url": "https://arxiv.org/abs/2610.10044",
+        "team_name": "Shell",
+        "method_name": "CANDO",
+        "trained_on_alps": "No"
+      },
+      "scores": [
+        {
+          "column_key": "cs",
+          "score": "0.826"
+        },
+        {
+          "column_key": "re",
+          "score": "0.423"
+        },
+        {
+          "column_key": "agg",
+          "score": "0.624"
+        }
+      ]
+    }
+  ]
+}
