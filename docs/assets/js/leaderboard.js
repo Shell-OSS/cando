@@ -202,7 +202,7 @@ async function load() {
     entries = moderate(Array.isArray(data.submissions) ? data.submissions : [], config);
     render();
     const when = new Date(data.fetched_at || Date.now()).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
-    meta.textContent = `Scored by the ALPS-Bench evaluation server against the held-out test set. Last updated (hourly): ${when}.`;
+    meta.textContent = `Scored by the ALPS-Bench evaluation server against the held-out test set. Last updated: ${when}.`;
   } catch {
     document.getElementById('lb-body').replaceChildren(messageRow('The leaderboard is unavailable right now. Please try again later.'));
     meta.textContent = 'Could not load the leaderboard.';
