@@ -8,7 +8,12 @@ import { initLeaderboard } from './leaderboard.js';
 import { initPlayground } from './playground.js';
 
 // Final URLs for the header buttons; leave empty to show a "coming soon" toast.
-const LINKS = { paper: '', arxiv: '', code: '', dataset: '' };
+const LINKS = {
+  paper: '',
+  arxiv: 'https://arxiv.org/abs/2610.10044',
+  code: 'https://github.com/Shell-OSS/cando',
+  dataset: 'https://github.com/Shell-OSS/cando/tree/main/data',
+};
 
 export function toast(message) {
   const t = document.getElementById('toast');
